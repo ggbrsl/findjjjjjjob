@@ -1,0 +1,25 @@
+{
+  "name": "@loong243/boss-scripts",
+  "version": "1.0.2",
+  "description": "Boss直聘智能爬虫 - 自动启动 Chrome、支持登录验证、智能翻页抓取职位列表与详情",
+  "type": "module",
+  "bin": "./boss.js",
+  "files": [
+    "*.js",
+    "cities.js",
+    "model.js"
+  ],
+  "keywords": [
+    "boss",
+    "zhipin",
+    "crawler",
+    "scraper",
+    "job",
+    "招聘"
+  ],
+  "license": "MIT",
+  "author": "loong <lx419394005@gmail.com>",
+  "engines": {
+    "node": ">=18"
+  }
+}
