@@ -25,11 +25,10 @@ boss-scripts detail --input ./output/boss_前端开发.json
 
 ```bash
 # 抓取职位列表
-cd /Volumes/new/dev/skill/job-cawler2/boss-scripts/boss
-bun boss.js list --query "前端开发" --city "深圳"
+boss-scripts list --query "前端开发" --city "深圳"
 
 # 补抓职位详情
-bun boss.js detail --input ./output/boss_前端开发.json
+boss-scripts detail --input ./output/boss_前端开发.json
 ```
 
 ### 2. 禁用自动启动
@@ -41,7 +40,16 @@ bun boss.js detail --input ./output/boss_前端开发.json
 /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --remote-debugging-port=9222 --user-data-dir=$HOME/boss-chrome-profile
 
 # 然后运行脚本(禁用自动启动)
-bun boss.js list --query "前端开发" --city "深圳" --no-auto-start
+boss-scripts list --query "前端开发" --city "深圳" --no-auto-start
+```
+
+### 3. 源码运行(bun)
+
+如果你是在仓库目录里开发/调试,也可以直接用 bun 跑源码:
+
+```bash
+cd /path/to/boss-scripts/boss
+bun boss.js list --query "前端开发" --city "深圳"
 ```
 
 ## 功能特性
@@ -70,7 +78,7 @@ bun boss.js list --query "前端开发" --city "深圳" --no-auto-start
 ### list 命令 - 抓取职位列表
 
 ```bash
-bun boss.js list [选项]
+boss-scripts list [选项]
 ```
 
 **必填参数:**
@@ -91,23 +99,22 @@ bun boss.js list [选项]
 **示例:**
 ```bash
 # 抓取深圳的 AI 相关职位,抓 5 页
-bun boss.js list --query "AI应用" --city "深圳" --page 5
+boss-scripts list --query "AI应用" --city "深圳" --page 5
 
 # 抓取 100 条前端开发职位,慢速模式
-bun boss.js list --query "前端开发" --count 100 --slow
+boss-scripts list --query "前端开发" --count 100 --slow
 
 # 跳过登录检查(不推荐)
-bun boss.js list --query "测试" --skip-login-check
-```
+boss-scripts list --query "测试" --skip-login-check
 
 # 指定输出文件
-bun boss.js list --query "React" --output ./jobs/react.json
+boss-scripts list --query "React" --output ./jobs/react.json
 ```
 
 ### detail 命令 - 补抓职位详情
 
 ```bash
-bun boss.js detail [选项]
+boss-scripts detail [选项]
 ```
 
 **必填参数:**
@@ -124,16 +131,16 @@ bun boss.js detail [选项]
 **示例:**
 ```bash
 # 补抓职位详情
-bun boss.js detail --input ./output/boss_前端开发.json
+boss-scripts detail --input ./output/boss_前端开发.json
 
 # 使用更慢的请求间隔
-bun boss.js detail --input ./jobs/react.json --delay 5000
+boss-scripts detail --input ./jobs/react.json --delay 5000
 ```
 
 ### search 命令 - 自动打开搜索页
 
 ```bash
-bun boss.js search [选项]
+boss-scripts search [选项]
 ```
 
 参数与 `list` 命令相同,区别在于:
@@ -182,7 +189,7 @@ curl http://127.0.0.1:9222/json/version
 
 A: 可以,使用 `--cdp-port` 参数:
 ```bash
-bun boss.js list --query "测试" --cdp-port 9223
+boss-scripts list --query "测试" --cdp-port 9223
 ```
 
 ### Q: 自动启动的 Chrome 会关闭吗?
@@ -235,7 +242,7 @@ A: 脚本通过以下方式检查登录状态:
 ## 文件结构
 
 ```
-/Volumes/new/dev/skill/job-cawler2/boss-scripts/boss/
+.
 ├── boss.js           # 入口文件
 ├── index.js          # 主逻辑(包含自动启动功能)
 ├── model.js          # 数据模型
