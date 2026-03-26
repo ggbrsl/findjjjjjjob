@@ -1,9 +1,11 @@
 {
-  "name": "clr",
-  "version": "1.0.2",
+  "name": "findjjjjjob",
+  "version": "1.0.0",
   "description": "这是一个 Boss直聘职位爬虫 Node.js CLI 工具，通过 Chrome DevTools Protocol (CDP) 控制浏览器抓取数据，不需要额外的 headless 库。",
   "type": "module",
-  "bin": "./boss.js",
+  "bin": {
+    "clr": "boss.js"
+  },
   "files": [
     "boss.js",
     "index.js",
@@ -26,5 +28,21 @@
   },
   "engines": {
     "node": ">=18"
-  }
+  },
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ggbrsl/findjjjjjjob.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ggbrsl/findjjjjjjob/issues"
+  },
+  "homepage": "https://github.com/ggbrsl/findjjjjjjob#readme"
 }
