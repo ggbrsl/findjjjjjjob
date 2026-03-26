@@ -3,6 +3,9 @@
 .AppleDouble
 .LSOverride
 ._*
+.*.swp
+.*.swo
+.workbuddy/
 
 # Node
 node_modules/
