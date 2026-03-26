@@ -1,7 +1,7 @@
 {
-  "name": "@loong243/boss-scripts",
+  "name": "clr",
   "version": "1.0.2",
-  "description": "Boss直聘智能爬虫 - 自动启动 Chrome、支持登录验证、智能翻页抓取职位列表与详情",
+  "description": "这是一个 Boss直聘职位爬虫 Node.js CLI 工具，通过 Chrome DevTools Protocol (CDP) 控制浏览器抓取数据，不需要额外的 headless 库。",
   "type": "module",
   "bin": "./boss.js",
   "files": [
@@ -20,7 +20,7 @@
     "招聘"
   ],
   "license": "MIT",
-  "author": "loong <lx419394005@gmail.com>",
+  "author": "ggbrsl <clrggbrsl@gmail.com>",
   "dependencies": {
     "ws": "^8.19.0"
   },

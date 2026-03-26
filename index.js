@@ -25,7 +25,7 @@ boss-scripts - Boss直聘智能爬虫
 
 list / search 选项:
   --query  <关键词>   搜索关键词，如"前端开发"（必填）
-  --city   <城市>     城市名，如"深圳"，默认全国
+  --city   <城市>     城市名，如"杭州"，默认全国
   --page   <N>        抓取页数，默认5
   --count  <N>        目标条数，自动估算滚动次数
   --delay  <ms>       滚动间隔，默认5000ms（建议≥5000）
@@ -38,7 +38,7 @@ detail 选项:
   --delay  <ms>       每条请求间隔，默认3000ms
 
 示例:
-  boss-scripts list   --query "前端开发" --city "深圳" --page 5
+  boss-scripts list   --query "前端开发" --city "杭州" --page 5
   boss-scripts search --query "AI应用"  --count 100 --slow
   boss-scripts detail --input ./output/boss_前端开发.json
 `.trim();
@@ -94,7 +94,7 @@ export const CHROME_PROFILE = homedir() + '/boss-chrome-profile';
 
 export async function checkCdpConnection(cdpPort) {
   try {
-    const response = await fetch(`http://127.0.0.1:${cdpPort}/json/version`, {
+    const response = await fetch(`http://localhost:${cdpPort}/json/version`, {
       signal: AbortSignal.timeout(2000),
     });
     if (!response.ok) {
@@ -109,8 +109,7 @@ export async function checkCdpConnection(cdpPort) {
 
 export async function checkLoginStatus(client) {
   try {
-    // 使用 Network.getCookies 命令来获取 Cookie
-    // 这比使用 document.cookie 更可靠
+    // 用 Network.getCookies 命令来获取 Cookie，比使用 document.cookie 更可靠
     const cookiesResult = await client.send('Network.getCookies');
     
     if (!cookiesResult || !cookiesResult.result || !Array.isArray(cookiesResult.result.cookies)) {
@@ -127,8 +126,7 @@ export async function checkLoginStatus(client) {
 
     return false;
   } catch (error) {
-    // 如果 Network.getCookies 不可用，尝试其他方法
-    // 如果页面还没加载,暂时不报错
+// 没加载出来不报错
     return null;
   }
 }
@@ -205,7 +203,7 @@ export async function ensureLogin(client, checkLoginFn = checkLoginStatus) {
 }
 
 async function findTarget(cdpPort) {
-  const response = await fetch(`http://127.0.0.1:${cdpPort}/json/list`);
+  const response = await fetch(`http://localhost:${cdpPort}/json/list`);
   if (!response.ok) throw new Error(`CDP /json/list 响应 ${response.status}`);
   const targets = await response.json();
   const page = targets.find((item) => item.type === 'page' && item.url.includes('zhipin.com'));
@@ -217,7 +215,7 @@ async function findTarget(cdpPort) {
 }
 
 async function openTarget(cdpPort, url) {
-  const endpoint = `http://127.0.0.1:${cdpPort}/json/new?${encodeURIComponent(url)}`;
+  const endpoint = `http://localhost:${cdpPort}/json/new?${encodeURIComponent(url)}`;
   let response = await fetch(endpoint, { method: 'PUT' });
 
   if (!response.ok && (response.status === 404 || response.status === 405 || response.status === 501)) {
@@ -487,6 +485,7 @@ export async function waitForJobListAfterAction(
   timeout = 60000,
   createWatcher = (currentClient, currentTimeout) => ({ promise: waitForJobList(currentClient, currentTimeout) })
 ) {
+  // 注册监听 → 触发动作 → 等待网络响应
   const watcher = createWatcher(client, timeout);
   await action();
   return watcher.promise;
@@ -497,6 +496,8 @@ export function estimateBossScrollRounds({ targetCount, existingCount = 0, batch
   return Math.max(1, Math.ceil((targetCount - existingCount) / batchSize));
 }
 
+// JS模拟真实滚动，加载下一页数据
+// 有的网站监听wheel，有的监听scroll
 export async function injectBossScroll(client, waitMs = 2000) {
   const result = await client.send('Runtime.evaluate', {
     expression: `

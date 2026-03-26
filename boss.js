@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+// 入口
 
 import { main } from './index.js';
 
